@@ -7,7 +7,7 @@
     <groupId>com.mycompany</groupId>
     <artifactId>my-app</artifactId>
     <version>1.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>  <!-- Changed from jar to war -->
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -30,6 +30,14 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- REQUIRED FOR WAR -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -46,16 +54,14 @@
                 <version>3.1.2</version>
             </plugin>
 
+            <!-- REPLACED maven-jar-plugin WITH maven-war-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.mycompany.app.App</mainClass>
-                        </manifest>
-                    </archive>
+                    <failOnMissingWebXml>false</failOnMissingWebXml> <!-- For modern Servlet apps -->
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
             </plugin>
         </plugins>
